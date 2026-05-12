@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../Velutia/src/Velutia.Cpu.csproj" />
+  <Project Path="src/Elppa.csproj" />
+</Solution>
