@@ -63,7 +63,13 @@ public static class Machine
         while (true)
         {
             Thread.Sleep(TimeSpan.FromMilliseconds(16.67));
-            cpu.RunInstruction();
+            
+            // (clock speed/frame rate) gives us cycles per frame
+            // 1.022727 mhz --> 1022727/60 = 17045.45 cycles
+            for (var i = 0; i < 17045; i++)
+            {
+                cpu.RunInstruction();   
+            }
         }
     }
     
