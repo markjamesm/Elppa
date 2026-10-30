@@ -3,11 +3,11 @@ using Elppa.Core;
 namespace Elppa.Cli.Hosts;
 
 // Hosts the emulator directly inside a console app.
-public static class ConsoleHost
+public class ConsoleTerminal: ITerminal
 {
-    public static void WriteCharacter(byte ascii)
+    public void WriteCharacter(byte asciiCode)
     {
-        switch (ascii)
+        switch (asciiCode)
         {
             case 0x0D:                      // carriage return '\r'
                 Console.Write('\n');
@@ -16,7 +16,7 @@ public static class ConsoleHost
                 Console.Write("\b \b");
                 break;
             case >= 0x20 and < 0x7F:        // printable ASCII range
-                Console.Write(Convert.ToChar(ascii));
+                Console.Write(Convert.ToChar(asciiCode));
                 break;
             // ignore anything else (NUL, DEL, tab, other control codes)
         }

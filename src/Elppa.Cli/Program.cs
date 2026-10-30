@@ -7,7 +7,9 @@ class Program
 {
     static void Main(string[] args)
     {
-        var emulator = new Emulator(ConsoleHost.WriteCharacter);
-        ConsoleHost.Run(emulator);
+        var terminal = new ConsoleTerminal();
+        var emulator = new Emulator(terminal.WriteCharacter);
+        
+        ConsoleTerminal.Run(emulator);
     }
 }
