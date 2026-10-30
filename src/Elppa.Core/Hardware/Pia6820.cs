@@ -1,4 +1,4 @@
-namespace Elppa.Hardware;
+namespace Elppa.Cli.Hardware;
 
 public class Pia6820
 {

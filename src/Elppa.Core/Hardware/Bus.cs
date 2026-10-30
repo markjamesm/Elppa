@@ -1,6 +1,7 @@
+using Elppa.Cli.Hardware;
 using Velutia.Bus;
 
-namespace Elppa.Hardware;
+namespace Elppa.Cli.Elppa.Core.Hardware;
 
 public class Bus: IBus
 {

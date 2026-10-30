@@ -1,11 +1,11 @@
-namespace Elppa.Hosts;
+using Elppa.Core;
+
+namespace Elppa.Cli.Hosts;
 
 // Hosts the emulator directly inside a console app.
-public class ConsoleHost: ITerminalHost
+public static class ConsoleHost
 {
-    public Action<char>? KeyPressed { get; set; }
-    
-    public void WriteCharacter(byte ascii)
+    public static void WriteCharacter(byte ascii)
     {
         switch (ascii)
         {
@@ -22,7 +22,7 @@ public class ConsoleHost: ITerminalHost
         }
     }
 
-    public void Run(Action runEmulation)
+    public static void Run(Emulator emulator)
     {
         new Thread(() =>
         {
@@ -40,13 +40,13 @@ public class ConsoleHost: ITerminalHost
                     continue; // Wozmon doesn't use tab
                 }
 
-                KeyPressed?.Invoke(ch);
+                emulator.KeyPress(ch);
             }
         }) { IsBackground = true }.Start();
 
         while (true)
         {
-            runEmulation();
+            emulator.RunFrame();
             Thread.Sleep(16);
         }
     }

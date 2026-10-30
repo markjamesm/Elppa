@@ -1,3 +1,7 @@
 .idea/
-src/obj
-src/bin
+
+src/Elppa.Cli/obj
+src/Elppa.Cli/bin
+
+src/Elppa.Core/obj
+src/Elppa.Core/bin

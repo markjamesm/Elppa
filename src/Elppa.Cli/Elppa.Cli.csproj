@@ -8,12 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Velutia\src\Velutia.Cpu.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Include="..\roms\**"
-                          LogicalName="roms/%(Filename)%(Extension)" />
+      <ProjectReference Include="..\Elppa.Core\Elppa.Core.csproj" />
     </ItemGroup>
 
 </Project>
