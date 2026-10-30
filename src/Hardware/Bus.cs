@@ -1,6 +1,6 @@
 using Velutia.Bus;
 
-namespace Elppa;
+namespace Elppa.Hardware;
 
 public class Bus: IBus
 {

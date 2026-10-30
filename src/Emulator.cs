@@ -1,3 +1,4 @@
+using Elppa.Hardware;
 using Velutia.Processor;
 
 namespace Elppa;

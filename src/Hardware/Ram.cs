@@ -1,4 +1,4 @@
-namespace Elppa;
+namespace Elppa.Hardware;
 
 public sealed class Ram
 {
