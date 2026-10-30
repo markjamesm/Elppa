@@ -19,8 +19,14 @@ public sealed class Emulator
         _cpu = new Cpu(new Bus(ram, _pia));
     }
 
-    public void KeyPress(char ch) => _pia.KeyPress(NormalizeInput(ch));
-    
+    public void SendKey(char ch)
+    {
+        if (KeyboardMapper.TryMap(ch, out var key))
+        {
+            _pia.Strobe((byte)key);
+        }
+    }
+
     // Call once per frame (about 60 times a second) from the frontend.
     public void RunFrame()
     {
@@ -36,7 +42,7 @@ public sealed class Emulator
         const ushort romStart = 0xFF00;
         const ushort basicStart = 0xE000;
 
-        var memory = new Ram(64 * 1024); // 8kb of RAM for basic, need to setup memory bank
+        var memory = new Ram(64 * 1024); // 8kb of RAM for basic, need to setup memory bank.
         var wozmon = RomLoader.LoadRom("monitor.rom");
         var appleBasic = RomLoader.LoadRom("basic.rom");
         
@@ -45,11 +51,4 @@ public sealed class Emulator
         
         return memory;
     }
-    
-    private static char NormalizeInput(char ch) => ch switch
-    {
-        '\n'           => '\r',
-        '\b' or '\x7F' => '_',
-        _              => char.ToUpperInvariant(ch) // Wozmon uses upper-case characters
-    };
 }

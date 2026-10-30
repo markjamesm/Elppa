@@ -29,18 +29,7 @@ public class ConsoleTerminal: ITerminal
             while (true)
             {
                 var ch = Console.ReadKey(intercept: true).KeyChar;
-
-                if (ch == '\0' || ch > 0x7F)
-                {
-                    continue; // arrows, F-keys, non-ASCII
-                }
-                
-                if (ch == '\t')
-                {
-                    continue; // Wozmon doesn't use tab
-                }
-
-                emulator.KeyPress(ch);
+                emulator.SendKey(ch);
             }
         }) { IsBackground = true }.Start();
 

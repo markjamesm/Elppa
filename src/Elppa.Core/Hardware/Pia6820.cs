@@ -76,9 +76,15 @@ public class Pia6820
         }
     }
 
-    public void KeyPress(char ch)
+    /// <summary>
+    /// Simulates the keyboard hardware pulsing the PIA’s key-ready line:
+    /// it stores the pressed key in the keyboard register (with bit 7 set)
+    /// and raises the ready flag so Wozmon or BASIC can read it.
+    /// </summary>
+    /// <param name="asciiChar">The ASCII char to strobe.</param>
+    public void Strobe(byte asciiChar)
     {
-        _keyboardInputRegister = (byte)(ch | 0x80);
+        _keyboardInputRegister = (byte)(asciiChar | 0x80);
         _keyboardControlRegister |= 0x80;
     }
 }
