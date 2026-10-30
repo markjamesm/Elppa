@@ -17,8 +17,4 @@
               LinkBase="\roms\" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Hardware\" />
-    </ItemGroup>
-
 </Project>
