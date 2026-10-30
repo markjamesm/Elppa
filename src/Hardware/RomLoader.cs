@@ -2,26 +2,14 @@ namespace Elppa.Hardware;
 
 public static class RomLoader
 {
-    private static string GetRomDirectory()
+    public static byte[] LoadRom(string name)
     {
-        var currentDirectory = Directory.GetCurrentDirectory();
-        var romsDirectory = Path.Join(currentDirectory, "/roms/");
+        using var stream = typeof(RomLoader).Assembly
+                               .GetManifestResourceStream($"roms/{name}")
+                           ?? throw new FileNotFoundException($"Embedded ROM not found: {name}");
 
-        return romsDirectory;
-    }
-    
-    public static byte[] LoadRom(string romName)
-    {
-        var romDir = GetRomDirectory();
-        var romFile = Path.Join(romDir, romName);
-
-        if (!File.Exists(romFile))
-        {
-            throw new FileNotFoundException("Error: ROM not found", romFile);
-        }
-        
-        var romStream = File.ReadAllBytes(romFile);
-        
-        return romStream;
+        var data = new byte[stream.Length];
+        stream.ReadExactly(data);
+        return data;
     }
 }

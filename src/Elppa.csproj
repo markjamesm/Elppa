@@ -12,9 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="$(SolutionDir)\roms\**"
-              CopyToOutputDirectory="PreserveNewest"
-              LinkBase="\roms\" />
+        <EmbeddedResource Include="..\roms\**"
+                          LogicalName="roms/%(Filename)%(Extension)" />
     </ItemGroup>
 
 </Project>
