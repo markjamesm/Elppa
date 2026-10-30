@@ -4,6 +4,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Emulator.Start();
+        var host = new ConsoleHost();
+        Emulator.Start(host);
     }
 }

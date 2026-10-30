@@ -4,73 +4,22 @@ namespace Elppa;
 
 public static class Emulator
 {
-    private static readonly Lock ConsoleLock = new();
-    
-    public static void Start()
+    public static void Start(ITerminalHost host)
     {
         var ram = InitializeRam();
-        var pia = new Pia6820(writeToDisplay: value =>
-        {
-            lock (ConsoleLock)
-            {
-                var c = Convert.ToChar(value);
-
-                switch (c)
-                {
-                    case '\r':
-                        Console.Write('\n');
-                        break;
-                    case '_':
-                        // Move back, erase the character, move back again
-                        Console.Write("\b \b");
-                        break;
-                    default:
-                        Console.Write(c);
-                        break;
-                }
-            }
-        } );
-        
+        var pia = new Pia6820(host.WriteCharacter);
         var bus = new Bus(ram, pia);
         var cpu = new Cpu(bus);
 
-        Task.Run(() =>
-        {
-            while (true)
-            {
-                var key = Console.ReadKey(intercept: true);
-                
-                lock (ConsoleLock)
-                {
-                    var ch = key.KeyChar;
-            
-                    // Normalize Enter
-                    if (ch == '\n') ch = '\r';
-            
-                    // Translate backspace/delete to Apple 1 underscore
-                    if (ch is '\b' or '\x7F') ch = '_';
-            
-                    pia.KeyPress(ch);
-                }
-            }
-        });
+        host.KeyPressed = ch => pia.KeyPress(NormalizeInput(ch));
 
-        EmulationLoop(cpu);
+        host.Run(() => RunFrame(cpu));
     }
     
-    private static void EmulationLoop(Cpu cpu)
+    private static void RunFrame(Cpu cpu)
     {
-        while (true)
-        {
-            Thread.Sleep(TimeSpan.FromMilliseconds(16.67));
-            
-            // (clock speed/frame rate) gives us cycles per frame
-            // 1.022727 mhz --> 1022727/60 = 17045.45 cycles
-            for (var i = 0; i < 17045; i++)
-            {
-                cpu.RunInstruction();   
-            }
-        }
+        for (var i = 0; i < 17045; i++)
+            cpu.RunInstruction();
     }
     
     private static Ram InitializeRam()
@@ -87,4 +36,11 @@ public static class Emulator
         
         return memory;
     }
+    
+    private static char NormalizeInput(char ch) => ch switch
+    {
+        '\n'           => '\r',
+        '\b' or '\x7F' => '_',
+        _              => char.ToUpperInvariant(ch) // Wozmon uses upper-case characters
+    };
 }
