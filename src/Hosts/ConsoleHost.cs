@@ -7,20 +7,18 @@ public class ConsoleHost: ITerminalHost
     
     public void WriteCharacter(byte ascii)
     {
-        var asciiChar = Convert.ToChar(ascii);
-
-        switch (asciiChar)
+        switch (ascii)
         {
-            case '\r':
+            case 0x0D:                      // carriage return '\r'
                 Console.Write('\n');
                 break;
-            case '_':
-                // Move back, erase the character, move back again
+            case 0x5F:                      // '_' = rubout: back, erase, back
                 Console.Write("\b \b");
                 break;
-            default:
-                Console.Write(asciiChar);
+            case >= 0x20 and < 0x7F:        // printable ASCII range
+                Console.Write(Convert.ToChar(ascii));
                 break;
+            // ignore anything else (NUL, DEL, tab, other control codes)
         }
     }
 
@@ -30,7 +28,19 @@ public class ConsoleHost: ITerminalHost
         {
             while (true)
             {
-                KeyPressed?.Invoke(Console.ReadKey(intercept: true).KeyChar);   
+                var ch = Console.ReadKey(intercept: true).KeyChar;
+
+                if (ch == '\0' || ch > 0x7F)
+                {
+                    continue; // arrows, F-keys, non-ASCII
+                }
+                
+                if (ch == '\t')
+                {
+                    continue; // Wozmon doesn't use tab
+                }
+
+                KeyPressed?.Invoke(ch);
             }
         }) { IsBackground = true }.Start();
 
