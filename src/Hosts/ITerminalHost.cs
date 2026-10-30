@@ -1,4 +1,4 @@
-namespace Elppa;
+namespace Elppa.Hosts;
 
 public interface ITerminalHost
 {

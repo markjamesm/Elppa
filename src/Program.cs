@@ -1,4 +1,6 @@
-﻿namespace Elppa;
+﻿using Elppa.Hosts;
+
+namespace Elppa;
 
 class Program
 {

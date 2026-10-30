@@ -1,4 +1,5 @@
 using Elppa.Hardware;
+using Elppa.Hosts;
 using Velutia.Processor;
 
 namespace Elppa;

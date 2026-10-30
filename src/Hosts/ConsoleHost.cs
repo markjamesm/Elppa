@@ -1,4 +1,4 @@
-namespace Elppa;
+namespace Elppa.Hosts;
 
 // Hosts the emulator directly inside a console app.
 public class ConsoleHost: ITerminalHost
