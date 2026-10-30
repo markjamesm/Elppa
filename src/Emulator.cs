@@ -2,7 +2,7 @@ using Velutia.Processor;
 
 namespace Elppa;
 
-public static class Machine
+public static class Emulator
 {
     private static readonly Lock ConsoleLock = new();
     
