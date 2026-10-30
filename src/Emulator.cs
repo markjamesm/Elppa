@@ -9,24 +9,24 @@ public static class Emulator
     public static void Start()
     {
         var ram = InitializeRam();
-        var pia = new Pia6820(writeToDisplay: (value) =>
+        var pia = new Pia6820(writeToDisplay: value =>
         {
             lock (ConsoleLock)
             {
-                var c = (char)value;
-        
-                if (c == '\r')
+                var c = Convert.ToChar(value);
+
+                switch (c)
                 {
-                    Console.Write('\n');
-                }
-                else if (c == '_')
-                {
-                    // Move back, erase the character, move back again
-                    Console.Write("\b \b");
-                }
-                else
-                {
-                    Console.Write(c);
+                    case '\r':
+                        Console.Write('\n');
+                        break;
+                    case '_':
+                        // Move back, erase the character, move back again
+                        Console.Write("\b \b");
+                        break;
+                    default:
+                        Console.Write(c);
+                        break;
                 }
             }
         } );
