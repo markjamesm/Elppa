@@ -12,4 +12,12 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.5" PrivateAssets="all"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Elppa.Core\Elppa.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\images\" />
+    </ItemGroup>
+
 </Project>
