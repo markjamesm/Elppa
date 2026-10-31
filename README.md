@@ -4,14 +4,16 @@ An [Apple I](https://en.wikipedia.org/wiki/Apple_I) emulator that [runs in your 
 MOS 6502 CPU core.
 
 <p align="center">
-  <img src="./screenshots/web-interface.png" alt="Elppa running Integer BASIC" width="1466"><br><sub>Elppa running Integer BASIC in the browser via Blazor WebAssembly.</sub>
+  <img src="https://raw.githubusercontent.com/markjamesm/Elppa/refs/heads/main/screenshots/web-interface.png" alt="Elppa running Integer BASIC" width="1466"><br><sub>Elppa running Integer BASIC in the browser via Blazor WebAssembly.</sub>
 </p>
 
 ## Usage
 - The system boots into [wozmon](https://www.sbprojects.net/projects/apple1/wozmon.php) where you can examine and change memory contents and start machine language programs.
 - [Integer BASIC](https://en.wikipedia.org/wiki/Integer_BASIC) is available by typing `E000R` at the wozmon prompt.
 
-Elppa supports both web and commandline interfaces:
+## Interfaces
+
+Elppa supports both web and command-line interfaces.
 
 ### Web Interface
 
