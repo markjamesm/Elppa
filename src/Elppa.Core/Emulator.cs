@@ -12,10 +12,10 @@ public sealed class Emulator
     private readonly Pia6820 _pia;
     private readonly Cpu _cpu;
 
-    public Emulator(Action<byte> writeCharacter)
+    public Emulator(ITerminal terminal)
     {
         var ram = InitializeRam();
-        _pia = new Pia6820(writeCharacter);
+        _pia = new Pia6820(terminal.WriteCharacter);
         _cpu = new Cpu(new Bus(ram, _pia));
     }
 
