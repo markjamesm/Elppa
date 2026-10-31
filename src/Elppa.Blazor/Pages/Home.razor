@@ -6,28 +6,30 @@
 <Terminal @ref="_terminal"/>
 
 <nav class="portfolio-links" aria-label="Author links">
+    <button class="portfolio-btn" @onclick="OpenAbout">About</button>
     <a class="portfolio-btn" href="https://github.com/markjamesm" target="_blank" rel="noopener">GitHub</a>
     <a class="portfolio-btn" href="https://markjames.dev" target="_blank" rel="noopener">Portfolio</a>
 </nav>
 
 <button class="help-modal" aria-label="Help" @onclick="OpenHelp">?</button>
 
-<HelpDialog Visible="_showHelp" VisibleChanged="OnHelpVisibleChanged"/>
+<HelpDialog Visible="_showHelp" VisibleChanged="OnModalVisibleChanged" />
+<AboutDialog Visible="_showAbout" VisibleChanged="OnModalVisibleChanged" />
 
 @code {
     private Terminal _terminal = default!;
-    private bool _showHelp;
+    private bool _showHelp, _showAbout;
 
     private void OpenHelp() => _showHelp = true;
+    private void OpenAbout() => _showAbout = true;
 
-    private async Task OnHelpVisibleChanged(bool visible)
+    private async Task OnModalVisibleChanged(bool visible)
     {
-        _showHelp = visible;
+        _showHelp = _showAbout = visible; // Only one modal is ever open.
 
         if (!visible)
         {
-            await _terminal.FocusAsync();
+            await _terminal.FocusAsync();   
         }
     }
-
 }

@@ -1,0 +1,41 @@
+@if (Visible)
+{
+    <div class="backdrop" @onclick="Close">
+        <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title"
+             tabindex="0" @ref="_dialog"
+             @onclick:stopPropagation
+             @onkeydown="OnKeyDown">
+            <h2 id="modal-title">@Title</h2>
+
+            @ChildContent
+
+            <button @onclick="Close">Close</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private ElementReference _dialog;
+    private bool _needsFocus;
+
+    protected override void OnParametersSet() => _needsFocus = Visible;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_needsFocus)
+        {
+            _needsFocus = false;
+            await _dialog.FocusAsync();
+        }
+    }
+
+    private Task Close() => VisibleChanged.InvokeAsync(false);
+
+    private Task OnKeyDown(KeyboardEventArgs e) =>
+        e.Key == "Escape" ? Close() : Task.CompletedTask;
+}

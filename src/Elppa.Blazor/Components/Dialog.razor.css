@@ -26,14 +26,15 @@
 }
 
 .dialog button {
+    display: block;
     min-width: 5rem;
+    margin: 1.25rem 4px 0 auto;
     padding: 0.3rem 1rem;
     border: 1px solid #000;
     border-radius: 6px;
     background: linear-gradient(to bottom, #ffffff 0%, #dddddd 55%, #bdbdbd 100%);
-    box-shadow:
-            inset 1px 1px 0 #fff,
-            inset -1px -1px 0 #8a8a8a;
+    box-shadow: inset 1px 1px 0 #fff,
+    inset -1px -1px 0 #8a8a8a;
     color: #000;
     font: bold 0.9rem "Charcoal", "Chicago", "Geneva", system-ui, sans-serif;
     cursor: pointer;
@@ -43,9 +44,8 @@
 
 .dialog button:active {
     background: linear-gradient(to bottom, #9c9c9c 0%, #c4c4c4 100%);
-    box-shadow:
-            inset 1px 1px 0 #666,
-            inset -1px -1px 0 #eee;
+    box-shadow: inset 1px 1px 0 #666,
+    inset -1px -1px 0 #eee;
 }
 
 .center {
