@@ -12,7 +12,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Velutia\src\Velutia.Cpu.csproj" />
+    <ProjectReference Include="..\..\submodules\Velutia\src\Velutia.Cpu.csproj" />
   </ItemGroup>
 
 </Project>
