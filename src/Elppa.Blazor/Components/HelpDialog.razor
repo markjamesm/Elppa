@@ -1,0 +1,58 @@
+@if (Visible)
+{
+    <div class="backdrop" @onclick="Close">
+        <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="help-title"
+             tabindex="0" @ref="_dialog"
+             @onclick:stopPropagation
+             @onkeydown="OnKeyDown">
+            <h2 id="help-title" class="center">Emulator Help</h2>
+            <hr/>
+
+            <h3>Wozmon (the <code>\</code> prompt)</h3>
+            <ul>
+                <li><code>E000R</code> starts Integer BASIC.</li>
+                <li><code>FF00</code> shows the byte stored at that address.</li>
+                <li><code>FF00.FF0F</code> shows a range of bytes.</li>
+                <li><code>280: A9 00 60</code> stores bytes starting at address <code>0280</code>.</li>
+                <li><code>280R</code> runs the program at that address.</li>
+                <li>Press <code>Esc</code> to cancel the line you're typing.</li>
+            </ul>
+
+            <h3>Integer BASIC (the <code>&gt;</code> prompt)</h3>
+            <ul>
+                <li>Every program line needs a line number, e.g.: <code>10 PRINT "HELLO"</code>.</li>
+                <li>A line without a number runs immediately.</li>
+                <li>End programs with <code>END</code>.</li>
+                <li><code>RUN</code> starts the program, <code>LIST</code> shows it, and <code>SCR</code> clears it.
+                </li>
+            </ul>
+
+            <button @onclick="Close">Close</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+
+    private ElementReference _dialog;
+    private bool _needsFocus;
+
+    protected override void OnParametersSet() => _needsFocus = Visible;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_needsFocus)
+        {
+            _needsFocus = false;
+            await _dialog.FocusAsync(); // moves focus out of the terminal
+        }
+    }
+
+    private Task Close() => VisibleChanged.InvokeAsync(false);
+
+    private Task OnKeyDown(KeyboardEventArgs e) =>
+        e.Key == "Escape" ? Close() : Task.CompletedTask;
+
+}

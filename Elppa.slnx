@@ -1,4 +1,6 @@
 <Solution>
   <Project Path="../Velutia/src/Velutia.Cpu.csproj" />
-  <Project Path="src/Elppa.csproj" />
+  <Project Path="src/Elppa.Blazor/Elppa.Blazor.csproj" />
+  <Project Path="src/Elppa.Cli/Elppa.Cli.csproj" />
+  <Project Path="src/Elppa.Core/Elppa.Core.csproj" />
 </Solution>
