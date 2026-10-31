@@ -1,0 +1,24 @@
+<Dialog Title="About" Visible="Visible" VisibleChanged="VisibleChanged">
+    <hr/>
+
+    <p>
+        An Apple I emulator that runs in your browser.</p>
+    <p>
+        Written in C# and Blazor WebAssembly, <a href="https://github.com/markjamesm/Elppa" target="_blank"
+                                                 rel="noopener">Elppa</a> is powered by
+        <a href="https://github.com/markjamesm/Velutia" target="_blank" rel="noopener">Velutia</a>,
+        my instruction-level accurate MOS 6502 CPU core.
+    </p>
+
+    <hr/>
+
+    <p class="credit">
+        Developed by
+        <a href="https://markjames.dev" target="_blank" rel="noopener noreferrer">Mark-James McDougall</a>
+    </p>
+</Dialog>
+
+@code {
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+}

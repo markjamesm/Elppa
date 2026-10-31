@@ -9,6 +9,18 @@ body {
     image-rendering: pixelated;
 }
 
+:root {
+    --space-top: 4rem; /* clears the About, GitHub and Portfolio buttons */
+    --space-bottom: 5.5rem; /* clears the ? button (3.5rem tall + 1.5rem offset) */
+}
+
+@media (max-height: 500px) {
+    :root {
+        --space-top: 3.25rem;
+        --space-bottom: 4.25rem;
+    }
+}
+
 h1:focus {
     outline: none;
 }
