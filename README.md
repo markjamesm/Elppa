@@ -4,12 +4,6 @@
 
 <h1 align="center">Elppa</h1>
 
-<hr/>
-
-<p align="center">
-  <a href="https://en.wikipedia.org/wiki/C_Sharp_(programming_language"><img src="https://img.shields.io/badge/Language-CSharp-darkgreen.svg" alt="C# programming language" /></a>
-</p>
-
 An [Apple I](https://en.wikipedia.org/wiki/Apple_I) emulator that [runs in your browser](https://elppa.markjames.dev). Written in C# and Blazor WebAssembly, Elppa is powered by [Velutia](https://github.com/markjamesm/Velutia), my instruction-level accurate
 MOS 6502 CPU core.
 
