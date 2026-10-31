@@ -17,9 +17,10 @@ Elppa supports both web and command-line interfaces.
 
 ### Web Interface
 
-- Visit the [Elppa website](https://elppa.markjames.dev).
+- Visit the [Elppa website](https://elppa.markjames.dev) for an interactive demo.
+- For local development, build and run the `Elppa.Blazor` project.
 
 ### Console Interface
 
-- Build the `Elppa.Cli` project from source and run it.
+- Build and run the `Elppa.Cli` project.
 
