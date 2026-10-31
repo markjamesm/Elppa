@@ -1,0 +1,77 @@
+.help-modal {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 5;
+    width: 3.7rem;
+    height: 3.7rem;
+    padding: 0;
+    border: 1px solid #000;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ffffff 0%, #dddddd 50%, #b4b4b4 100%);
+    box-shadow:
+            inset 1px 1px 0 #fff,
+            inset -1px -1px 0 #8a8a8a,
+            1px 1px 0 rgba(0, 0, 0, 0.5);
+    color: #000;
+    font: bold 1.7rem "Charcoal", "Chicago", "Geneva", system-ui, sans-serif;
+    cursor: pointer;
+}
+
+.help-modal:active {
+    background: linear-gradient(135deg, #9c9c9c 0%, #c4c4c4 100%);
+    box-shadow:
+            inset 1px 1px 0 #666,          /* bevel inverts when pressed */
+            inset -1px -1px 0 #eee;
+}
+
+.help-modal:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
+
+.portfolio-links {
+    position: fixed;
+    top: 1rem;
+    right: 1.25rem;
+    z-index: 5;                 /* above the page, below the help dialog's backdrop (10) */
+    display: flex;
+    gap: 0.6rem;
+}
+
+.portfolio-btn {
+    padding: 0.35rem 0.9rem;
+    border: 1px solid #000;
+    border-radius: 6px;
+    background: linear-gradient(to bottom, #ffffff 0%, #dddddd 55%, #bdbdbd 100%);
+    box-shadow:
+            inset 1px 1px 0 #fff,
+            inset -1px -1px 0 #8a8a8a,
+            1px 1px 0 rgba(0, 0, 0, 0.5);
+    color: #000;
+    font: bold 0.85rem "Charcoal", "Chicago", "Geneva", system-ui, sans-serif;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.portfolio-btn:active {
+    background: linear-gradient(to bottom, #9c9c9c 0%, #c4c4c4 100%);
+    box-shadow:
+            inset 1px 1px 0 #666,
+            inset -1px -1px 0 #eee;
+}
+
+.portfolio-btn:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+    .portfolio-links { top: 0.6rem; right: 0.6rem; gap: 0.4rem; }
+    .portfolio-btn   { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .help-modal {
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.4rem;
+    }
+}

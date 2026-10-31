@@ -1,0 +1,62 @@
+.monitor {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    width: min(100%, 1024px, calc((100vh - 3.5rem - 2rem) * 4 / 3));
+    container-type: inline-size;
+}
+
+.bezel {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 2.5cqw;
+    user-select: none;
+    pointer-events: none;
+    filter:
+            drop-shadow(0 0.4cqw 0.6cqw rgba(0, 0, 0, 0.45))    /* tight contact shadow */
+            drop-shadow(0 2.5cqw 4cqw rgba(0, 0, 0, 0.40));     /* soft ambient shadow */
+}
+
+.terminal {
+    position: absolute;
+    left: 9.1%;
+    top: 9.2%;
+    width: 81.5%;
+    height: 80.5%;
+
+    background: #020a04;
+    color: #33ff66;
+    text-shadow: 0 0 6px rgba(51, 255, 102, 0.6);
+    border-radius: 3cqw;
+    outline: none;
+    overflow: hidden;
+    padding: 1.5cqw 2cqw;
+    box-sizing: border-box;
+    box-shadow: inset 0 0 3cqw rgba(0, 0, 0, 0.85);
+
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 2.3cqw;        /* scales with the monitor width */
+    line-height: 2.3cqw;   /* 24 rows x 2.3 = 55.2cqw, fits the content box */}
+
+.terminal pre {
+    margin: 0;
+    font: inherit;
+    line-height: inherit;
+    overflow: hidden;
+}
+
+/* Add scanlines. */
+.terminal::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.18) 0,
+            rgba(0, 0, 0, 0.18) 1px,
+            transparent 1px,
+            transparent 3px
+    );
+}

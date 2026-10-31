@@ -1,0 +1,80 @@
+@using Elppa.Core
+@implements IDisposable
+
+<div class="monitor" @onclick="FocusAsync">
+    <img class="bezel" src="images/crt.png" alt="Image of a CRT monitor"/>
+
+    <div class="terminal" tabindex="0" @ref="_host"
+         @onkeydown="OnKeyDown" @onkeydown:preventDefault>
+        <pre>@_text</pre>
+    </div>
+</div>
+
+@code {
+    private readonly WebTerminal _screenBuffer = new();
+    private readonly CancellationTokenSource _cts = new();
+    private Emulator _emulator = default!;
+    private ElementReference _host;
+    private string _text = "";
+
+    // Lets the parent hand the keyboard back after the help dialog closes.
+    public async Task FocusAsync() => await _host.FocusAsync();
+
+    protected override void OnInitialized() => _emulator = new Emulator(_screenBuffer.WriteCharacter);
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        await _host.FocusAsync();
+        _ = RunAsync(_cts.Token);
+    }
+
+    private async Task RunAsync(CancellationToken ct)
+    {
+        using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(16));
+        try
+        {
+            while (await timer.WaitForNextTickAsync(ct))
+            {
+                _emulator.RunFrame();
+
+                if (_screenBuffer.IsDirty)
+                {
+                    _text = _screenBuffer.Render();
+                    StateHasChanged();
+                }
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+    }
+
+    private void OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.CtrlKey || e.MetaKey || e.AltKey)
+        {
+            return;
+        }
+
+        switch (e.Key)
+        {
+            case "Enter": _emulator.SendKey('\r'); break;
+            case "Backspace": _emulator.SendKey('\b'); break;
+            case "Escape": _emulator.SendKey('\x1B'); break;
+            default:
+                if (e.Key.Length == 1)
+                {
+                    _emulator.SendKey(e.Key[0]);
+                }
+
+                break;
+        }
+    }
+
+    public void Dispose() => _cts.Cancel();
+}

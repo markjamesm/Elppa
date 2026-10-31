@@ -1,7 +1,33 @@
 ﻿@page "/"
+@using Elppa.Blazor.Components
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Elppa - Apple I Emulator</PageTitle>
 
-<h1>Hello, world!</h1>
+<Terminal @ref="_terminal"/>
 
-Welcome to your new app.
+<nav class="portfolio-links" aria-label="Author links">
+    <a class="portfolio-btn" href="https://github.com/markjamesm" target="_blank" rel="noopener">GitHub</a>
+    <a class="portfolio-btn" href="https://markjames.dev" target="_blank" rel="noopener">Portfolio</a>
+</nav>
+
+<button class="help-modal" aria-label="Help" @onclick="OpenHelp">?</button>
+
+<HelpDialog Visible="_showHelp" VisibleChanged="OnHelpVisibleChanged"/>
+
+@code {
+    private Terminal _terminal = default!;
+    private bool _showHelp;
+
+    private void OpenHelp() => _showHelp = true;
+
+    private async Task OnHelpVisibleChanged(bool visible)
+    {
+        _showHelp = visible;
+
+        if (!visible)
+        {
+            await _terminal.FocusAsync();
+        }
+    }
+
+}
