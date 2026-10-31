@@ -1,12 +1,28 @@
-# Elppa
+<p align="center">
+  <img src="./screenshots/logo.png" alt="Elppa project logo" width="192" />
+</p>
 
-An [Apple I](https://en.wikipedia.org/wiki/Apple_I) emulator written in C# and powered by [Velutia](https://github.com/markjamesm/Velutia), my instruction-level accurate 
-MOS 6502 CPU core. 
+<h1 align="center">Elppa</h1>
 
-Elppa is currently in active development, so expect more features to come soon.
+<hr/>
+
+<p align="center">
+  <a href="https://en.wikipedia.org/wiki/C_Sharp_(programming_language"><img src="https://img.shields.io/badge/Language-CSharp-darkgreen.svg" alt="C# programming language" /></a>
+</p>
+
+An [Apple I](https://en.wikipedia.org/wiki/Apple_I) emulator that [runs in your browser](https://elppa.markjames.dev). Written in C# and Blazor WebAssembly, Elppa is powered by [Velutia](https://github.com/markjamesm/Velutia), my instruction-level accurate
+MOS 6502 CPU core.
 
 ## Usage
+- The system boots into [wozmon](https://www.sbprojects.net/projects/apple1/wozmon.php) where you can examine and change memory contents and start machine language programs.
+- [Integer BASIC](https://en.wikipedia.org/wiki/Integer_BASIC) is available by typing `E000R` at the wozmon prompt.
 
-- The emulator boots into [wozmon](https://www.sbprojects.net/projects/apple1/wozmon.php) where you can examine and change memory contents and start machine language programs. 
-- [Integer basic](https://en.wikipedia.org/wiki/Integer_BASIC) is available by typing `E000R` at the wozmon prompt.
+
+### Web Version
+
+- Visit the [Elppa website](https://elppa.markjames.dev).
+
+### Console Version
+
+- Build the `Elppa.Cli` project from source and run it.
 
