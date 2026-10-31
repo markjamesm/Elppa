@@ -19,7 +19,7 @@ public sealed class WebTerminal : ITerminal
         switch (asciiCode)
         {
             case 0x0D: NewLine(); break;
-            case 0x5F: // Rubout
+            case 0x5F:
                 if (_col > 0) _rows[_row][--_col] = ' ';
                 break;
             case >= 0x20 and < 0x7F:
