@@ -1,21 +1,19 @@
 ﻿@page "/"
 @using Elppa.Blazor.Components
+@using Elppa.Blazor.Components.Dialogs
 
 <PageTitle>Elppa - Apple I Emulator</PageTitle>
 
 <Terminal @ref="_terminal"/>
 
-<MenuBar OnAbout="() => _showAbout = true" OnHelp="() => _showHelp = true" />
+<MenuBar OnAbout="() => _showAbout = true" OnHelp="() => _showHelp = true"/>
 
-<HelpDialog Visible="_showHelp" VisibleChanged="OnModalVisibleChanged" />
-<AboutDialog Visible="_showAbout" VisibleChanged="OnModalVisibleChanged" />
+<HelpDialog Visible="_showHelp" VisibleChanged="OnModalVisibleChanged"/>
+<AboutDialog Visible="_showAbout" VisibleChanged="OnModalVisibleChanged"/>
 
 @code {
     private Terminal _terminal = default!;
     private bool _showHelp, _showAbout;
-
-    private void OpenHelp() => _showHelp = true;
-    private void OpenAbout() => _showAbout = true;
 
     private async Task OnModalVisibleChanged(bool visible)
     {
@@ -23,7 +21,8 @@
 
         if (!visible)
         {
-            await _terminal.FocusAsync();   
+            await _terminal.FocusAsync();
         }
     }
+
 }
