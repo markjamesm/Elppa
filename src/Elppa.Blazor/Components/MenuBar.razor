@@ -85,7 +85,7 @@
         }
     }
 
-    private static string FormatNow() => DateTime.Now.ToString("ddd dh:mm tt");
+    private static string FormatNow() => DateTimeOffset.UtcNow.ToLocalTime().ToString("ddd h:mm tt");
 
     private void Toggle(string name) => _open = _open == name ? null : name;
     private void Close() => _open = null;
