@@ -118,5 +118,6 @@
     .terminal pre {
         font-size: 3.7cqw;
         line-height: 1.2;
+        height: calc(24 * 1.2em);
     }
 }
