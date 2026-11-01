@@ -2,15 +2,9 @@ html, body {
     font-family: "Charcoal", "Chicago", "Geneva", system-ui, sans-serif;
 }
 
-html {
-    background-color: #6a7bb3;
-}
-
 body {
     margin: 0;
-    background:
-            conic-gradient(#6a7bb3 25%, #7d8ec4 0 50%, #6a7bb3 0 75%, #7d8ec4 0) 0 0 / 4px 4px,
-            #6a7bb3;
+    background: conic-gradient(#6a7bb3 25%, #7d8ec4 0 50%, #6a7bb3 0 75%, #7d8ec4 0) 0 0 / 4px 4px;
     image-rendering: pixelated;
 }
 

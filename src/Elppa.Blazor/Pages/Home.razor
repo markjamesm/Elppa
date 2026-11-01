@@ -5,12 +5,7 @@
 
 <Terminal @ref="_terminal"/>
 
-<nav class="top-links" aria-label="Info buttons">
-    <button class="top-btn" @onclick="OpenAbout">About</button>
-    <a class="top-btn" href="https://github.com/markjamesm" target="_blank" rel="noopener">GitHub</a>
-</nav>
-
-<button class="help-btn" aria-label="Help" @onclick="OpenHelp">?</button>
+<MenuBar OnAbout="() => _showAbout = true" OnHelp="() => _showHelp = true" />
 
 <HelpDialog Visible="_showHelp" VisibleChanged="OnModalVisibleChanged" />
 <AboutDialog Visible="_showAbout" VisibleChanged="OnModalVisibleChanged" />

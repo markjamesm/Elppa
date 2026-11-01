@@ -1,0 +1,58 @@
+<nav class="menubar" aria-label="Main menu" @onkeydown="OnKeyDown">
+    @if (_open is not null)
+    {
+        <div class="menu-backdrop" @onclick="Close"></div>
+    }
+
+    <div class="menu">
+        <button class="title @(_open == "app" ? "open" : "")" @onclick='() => Toggle("app")'><strong>Elppa</strong></button>
+        @if (_open == "app")
+        {
+            <ul class="dropdown" role="menu">
+                <li><button role="menuitem" @onclick="() => Pick(OnAbout)">About Elppa…</button></li>
+            </ul>
+        }
+    </div>
+
+    <div class="menu">
+        <button class="title @(_open == "help" ? "open" : "")" @onclick='() => Toggle("help")'>Help</button>
+        @if (_open == "help")
+        {
+            <ul class="dropdown" role="menu">
+                <li><button role="menuitem" @onclick="() => Pick(OnHelp)">Wozmon &amp; BASIC…</button></li>
+            </ul>
+        }
+    </div>
+
+    <div class="menu">
+        <button class="title @(_open == "links" ? "open" : "")" @onclick='() => Toggle("links")'>Links</button>
+        @if (_open == "links")
+        {
+            <ul class="dropdown" role="menu">
+                <li><a role="menuitem" href="https://markjames.dev" target="_blank" rel="noopener" @onclick="Close">Portfolio</a></li>
+                <li><a role="menuitem" href="https://github.com/markjamesm/Elppa" target="_blank" rel="noopener" @onclick="Close">View on GitHub</a></li>
+            </ul>
+        }
+    </div>
+</nav>
+
+@code {
+    [Parameter] public EventCallback OnAbout { get; set; }
+    [Parameter] public EventCallback OnHelp { get; set; }
+
+    private string? _open;
+
+    private void Toggle(string name) => _open = _open == name ? null : name;
+    private void Close() => _open = null;
+
+    private async Task Pick(EventCallback action)
+    {
+        _open = null;
+        await action.InvokeAsync();
+    }
+
+    private void OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape") _open = null;
+    }
+}
