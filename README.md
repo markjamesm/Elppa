@@ -4,7 +4,7 @@ An [Apple I](https://en.wikipedia.org/wiki/Apple_I) emulator that [runs in your 
 MOS 6502 CPU core.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/markjamesm/Elppa/refs/heads/main/screenshots/web-interface.png" alt="Elppa running Integer BASIC" width="1466"><br><sub>Elppa running Integer BASIC in the browser via Blazor WebAssembly.</sub>
+  <img src="./screenshots/web-interface.png" alt="Elppa running Integer BASIC" width="1466"><br><sub>Elppa running Integer BASIC in the browser via Blazor WebAssembly.</sub>
 </p>
 
 ## Usage
