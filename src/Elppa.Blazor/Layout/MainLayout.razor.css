@@ -35,7 +35,7 @@ main {
 .content {
     flex: 1;
     display: grid;
-    grid-template-columns: minmax(0, 1fr); /* column can't grow past the container */
+    grid-template-columns: minmax(0, 1fr);
     place-items: center;
-    padding: 1rem;
+    padding: calc(1rem + env(safe-area-inset-top)) 1rem 1rem;
 }

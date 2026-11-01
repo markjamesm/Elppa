@@ -9,7 +9,7 @@ body {
 }
 
 :root {
-    --space-top: 4rem; /* clears the About, GitHub and Portfolio buttons */
+    --space-top: 4rem; /* clears the About & GitHub buttons */
     --space-bottom: 5.5rem; /* clears the ? button (3.5rem tall + 1.5rem offset) */
 }
 
