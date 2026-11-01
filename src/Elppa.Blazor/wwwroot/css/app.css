@@ -1,10 +1,9 @@
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: "Charcoal", "Chicago", "Geneva", system-ui, sans-serif;
 }
 
 body {
     margin: 0;
-    min-height: 100vh;
     background: conic-gradient(#6a7bb3 25%, #7d8ec4 0 50%, #6a7bb3 0 75%, #7d8ec4 0) 0 0 / 4px 4px;
     image-rendering: pixelated;
 }
