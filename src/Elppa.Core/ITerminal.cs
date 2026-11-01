@@ -7,7 +7,7 @@ public interface ITerminal
     /// </summary>
     /// <param name="asciiCode">
     /// A 7-bit ASCII code. 0x0D is carriage return and 0x5F (_) is the
-    /// Apple I's rubout. Other control codes can be ignored.
+    /// Apple I's backspace character. Other control codes can be ignored.
     /// </param>
     void WriteCharacter(byte asciiCode);
 }

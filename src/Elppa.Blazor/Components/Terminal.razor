@@ -2,25 +2,41 @@
 @implements IDisposable
 
 <div class="monitor" @onclick="FocusAsync">
-    <img class="bezel" src="images/crt.png" alt="Image of a CRT monitor"/>
+    <img class="bezel" src="images/crt.png" alt="Photo of a CRT monitor"/>
 
-    <div class="terminal" tabindex="0" @ref="_host"
-         @onkeydown="OnKeyDown" @onkeydown:preventDefault>
+    <div class="terminal">
         <pre>@_text</pre>
     </div>
+
+    <input class="keyboard-capture" @ref="_input"
+           type="text" aria-label="Apple I keyboard"
+           autocomplete="off" autocapitalize="characters" spellcheck="false" autocorrect="off"
+           @onkeydown="OnDesktopKeyDown" @onkeydown:preventDefault
+           @bind:event="oninput"
+           @bind:get="_inputValue"
+           @bind:set="OnMobileInput"/>
 </div>
 
 @code {
+
+    // The input always holds this one invisible character. If it disappears,
+    // that was a Backspace on a phone keyboard that doesn't report key events.
+    private const string Sentinel = "\u200B";
+
     private readonly WebTerminal _screenBuffer = new();
     private readonly CancellationTokenSource _cts = new();
-    private Emulator _emulator = default!;
-    private ElementReference _host;
+    private readonly Emulator _emulator;
+    private ElementReference _input;
+    private string _inputValue = Sentinel;
     private string _text = "";
 
-    // Lets the parent hand the keyboard back after the help dialog closes.
-    public async Task FocusAsync() => await _host.FocusAsync();
+    public Terminal()
+    {
+        _emulator = new Emulator(_screenBuffer);   
+    }
 
-    protected override void OnInitialized() => _emulator = new Emulator(_screenBuffer.WriteCharacter);
+    // Lets the parent hand the keyboard back after a dialog closes.
+    public async Task FocusAsync() => await _input.FocusAsync();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -28,8 +44,9 @@
         {
             return;
         }
+        
+        await _input.FocusAsync();
 
-        await _host.FocusAsync();
         _ = RunAsync(_cts.Token);
     }
 
@@ -51,30 +68,57 @@
         }
         catch (OperationCanceledException)
         {
+            // DisposeAsync cancels the token to stop the loop.
         }
     }
 
-    private void OnKeyDown(KeyboardEventArgs e)
+    // Desktop keyboards, and phone keyboards that report real keys.
+    // preventDefault stops the character from also arriving in OnMobileInput.
+    private void OnDesktopKeyDown(KeyboardEventArgs e)
     {
         if (e.CtrlKey || e.MetaKey || e.AltKey)
         {
             return;
         }
 
-        switch (e.Key)
+        if (ToChar(e.Key) is { } ch)
         {
-            case "Enter": _emulator.SendKey('\r'); break;
-            case "Backspace": _emulator.SendKey('\b'); break;
-            case "Escape": _emulator.SendKey('\x1B'); break;
-            default:
-                if (e.Key.Length == 1)
-                {
-                    _emulator.SendKey(e.Key[0]);
-                }
-
-                break;
+            _emulator.SendKey(ch);
         }
     }
 
-    public void Dispose() => _cts.Cancel();
+    // Phone keyboards that report the key as "Unidentified" arrive here instead.
+    private void OnMobileInput(string value)
+    {
+        if (value.Length == 0)
+        {
+            _emulator.SendKey('\b');
+        }
+
+        else
+        {
+            foreach (var ch in value.Replace(Sentinel, ""))
+            {
+                _emulator.SendKey(ch);
+            }
+        }
+
+        _inputValue = Sentinel;
+    }
+
+    private static char? ToChar(string key) => key switch
+    {
+        "Enter" => '\r',
+        "Backspace" => '\b',
+        "Escape" => '\x1B',
+        { Length: 1 } => key[0],
+        _ => null
+    };
+
+    public void Dispose()
+    {
+        _cts.Cancel();
+        _cts.Dispose();
+    }
+
 }
