@@ -63,8 +63,9 @@
 
 @media (max-width: 640px) {
     .top-links {
-        top: 0.6rem;
-        right: 0.6rem;
+        top: calc(0.6rem + env(safe-area-inset-top));
+        left: 0.6rem;
+        right: auto;
         gap: 0.8rem;
     }
 
@@ -74,8 +75,11 @@
     }
 
     .help-btn {
-        width: 3rem;
-        height: 3rem;
-        font-size: 1.4rem;
+        top: calc(0.6rem + env(safe-area-inset-top));
+        right: 0.6rem;
+        bottom: auto;
+        width: 2rem;
+        height: 2rem;
+        font-size: 1.2rem;
     }
 }
