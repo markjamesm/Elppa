@@ -83,3 +83,10 @@
         padding-left: calc(0.8rem + env(safe-area-inset-left));
     }
 }
+
+.clock {
+    margin-left: auto;                 /* Pushes clock the right edge of menu. */
+    align-self: center;
+    padding: 0 calc(0.8rem + env(safe-area-inset-right)) 0 0.8rem;
+    white-space: nowrap;
+}

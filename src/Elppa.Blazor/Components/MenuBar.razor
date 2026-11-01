@@ -1,3 +1,5 @@
+@implements IDisposable
+
 <nav class="menubar" aria-label="Main menu" @onkeydown="OnKeyDown">
     @if (_open is not null)
     {
@@ -5,11 +7,14 @@
     }
 
     <div class="menu">
-        <button class="title @(_open == "app" ? "open" : "")" @onclick='() => Toggle("app")'><strong>Elppa</strong></button>
+        <button class="title @(_open == "app" ? "open" : "")" @onclick='() => Toggle("app")'><strong>Elppa</strong>
+        </button>
         @if (_open == "app")
         {
             <ul class="dropdown" role="menu">
-                <li><button role="menuitem" @onclick="() => Pick(OnAbout)">About Elppa…</button></li>
+                <li>
+                    <button role="menuitem" @onclick="() => Pick(OnAbout)">About Elppa…</button>
+                </li>
             </ul>
         }
     </div>
@@ -19,7 +24,9 @@
         @if (_open == "help")
         {
             <ul class="dropdown" role="menu">
-                <li><button role="menuitem" @onclick="() => Pick(OnHelp)">Wozmon &amp; BASIC…</button></li>
+                <li>
+                    <button role="menuitem" @onclick="() => Pick(OnHelp)">Wozmon &amp; BASIC…</button>
+                </li>
             </ul>
         }
     </div>
@@ -29,11 +36,15 @@
         @if (_open == "links")
         {
             <ul class="dropdown" role="menu">
-                <li><a role="menuitem" href="https://markjames.dev" target="_blank" rel="noopener" @onclick="Close">Portfolio</a></li>
-                <li><a role="menuitem" href="https://github.com/markjamesm/Elppa" target="_blank" rel="noopener" @onclick="Close">View on GitHub</a></li>
+                <li><a role="menuitem" href="https://markjames.dev" target="_blank" rel="noopener" @onclick="Close">Portfolio</a>
+                </li>
+                <li><a role="menuitem" href="https://github.com/markjamesm/Elppa" target="_blank" rel="noopener"
+                       @onclick="Close">View on GitHub</a></li>
             </ul>
         }
     </div>
+
+    <span class="clock" aria-hidden="true">@_time</span>
 </nav>
 
 @code {
@@ -41,6 +52,40 @@
     [Parameter] public EventCallback OnHelp { get; set; }
 
     private string? _open;
+    private readonly CancellationTokenSource _cts = new();
+    private string _time = "";
+
+    protected override void OnInitialized()
+    {
+        _time = FormatNow();
+        _ = TickAsync(_cts.Token);
+    }
+
+    private async Task TickAsync(CancellationToken ct)
+    {
+        using var timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+        try
+        {
+            while (await timer.WaitForNextTickAsync(ct))
+            {
+                var now = FormatNow();
+                
+                if (now == _time)
+                {
+                    continue; // Only re-render when the minute changes.
+                }
+
+                _time = now;
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // Expected: Dispose cancels the token.
+        }
+    }
+
+    private static string FormatNow() => DateTime.Now.ToString("ddd dh:mm tt");
 
     private void Toggle(string name) => _open = _open == name ? null : name;
     private void Close() => _open = null;
@@ -53,6 +98,16 @@
 
     private void OnKeyDown(KeyboardEventArgs e)
     {
-        if (e.Key == "Escape") _open = null;
+        if (e.Key == "Escape")
+        {
+            _open = null;
+        }
     }
+
+    public void Dispose()
+    {
+        _cts.Cancel();
+        _cts.Dispose();
+    }
+
 }
