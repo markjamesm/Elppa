@@ -34,7 +34,18 @@
     color: #fff;
 }
 
-/* classic inverted highlight */
+.title.app-menu strong {
+    font-family: system-ui, sans-serif;
+    font-weight: 700;
+}
+
+/* High-density screens: keep retro font with a fine stroke for bold. */
+@media (min-resolution: 1.5dppx) {
+    .title.app-menu strong {
+        font-family: inherit;
+        -webkit-text-stroke: 0.4px currentColor;
+    }
+}
 
 .dropdown {
     position: absolute;
