@@ -39,7 +39,7 @@
     public async Task FocusAsync() => await _input.FocusAsync();
     
     // Lets the parent queue a pasted program as keystrokes.
-    public void LoadProgramFromText(string text) => _emulator.LoadProgramFromText(text);
+    public void LoadProgramFromText(string text) => _emulator.ExecuteProgramFromText(text);
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

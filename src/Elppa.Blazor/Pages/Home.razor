@@ -12,7 +12,7 @@
 
 <HelpDialog Visible="_modal == Modal.Help" VisibleChanged="OnModalVisibleChanged"/>
 <AboutDialog Visible="_modal == Modal.About" VisibleChanged="OnModalVisibleChanged"/>
-<ProgramPasteDialog Visible="_modal == Modal.LoadProgram"
+<ExecuteProgramDialog Visible="_modal == Modal.LoadProgram"
                     VisibleChanged="OnModalVisibleChanged"
                     OnRun="text => _terminal.LoadProgramFromText(text)"/>
 

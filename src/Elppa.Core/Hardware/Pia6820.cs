@@ -42,7 +42,6 @@ public class Pia6820
         _pasteQueue.Clear();
     }
 
-
     public byte Read(ushort address)
     {
         switch (address)
@@ -103,9 +102,14 @@ public class Pia6820
         _keyboardControlRegister |= 0x80;
     }
 
-    public void LoadProgramFromText(string programText)
+    /// <summary>
+    /// This method is used to virtually type text into the PIA's input register
+    /// and should be used when loading text into the machine.
+    /// </summary>
+    /// <param name="text">The text to be entered.</param>
+    public void TypeText(string text)
     {
-        foreach (var ch in programText.Replace("\r\n", "\r").Replace('\n', '\r').ToUpperInvariant()
+        foreach (var ch in text.Replace("\r\n", "\r").Replace('\n', '\r').ToUpperInvariant()
                      .Where(ch => ch == '\r' || (ch >= 0x20 && ch < 0x60)))
         {
             _pasteQueue.Enqueue((byte)(ch | 0x80));

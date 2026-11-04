@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Elppa.Cli.Elppa.Core.Hardware;
 using Elppa.Cli.Hardware;
 using Velutia.Processor;
@@ -26,8 +27,22 @@ public sealed class Emulator
             _pia.Strobe((byte)key);
         }
     }
-    
-    public void LoadProgramFromText(string text) => _pia.LoadProgramFromText(text);
+
+    public void ExecuteProgramFromText(string sourceCode)
+    {
+        Reset();
+
+        if (IsBasicSource(sourceCode))
+        {
+            _pia.TypeText("E000R\r"); // cold start BASIC, clears any old program
+            _pia.TypeText(sourceCode.TrimEnd() + "\r");
+        }
+
+        else
+        {
+            _pia.TypeText(sourceCode); // Assembly program; typically ends with xxxxR.
+        }
+    }
 
     // Call once per frame (about 60 times a second) from the frontend.
     public void RunFrame()
@@ -38,7 +53,7 @@ public sealed class Emulator
         while (_cpu.Cycles - start < CyclesPerFrame)
             _cpu.RunInstruction();
     }
-    
+
     private static Ram InitializeRam()
     {
         const ushort romStart = 0xFF00;
@@ -47,10 +62,21 @@ public sealed class Emulator
         var memory = new Ram(64 * 1024); // 8kb of RAM for basic, need to setup memory bank.
         var wozmon = RomLoader.LoadRom("monitor.rom");
         var appleBasic = RomLoader.LoadRom("basic.rom");
-        
+
         memory.Load(wozmon, romStart);
         memory.Load(appleBasic, basicStart);
-        
+
         return memory;
     }
+
+    private void Reset()
+    {
+        _pia.Reset(); // clears the key queue and PIA registers
+        _cpu.Reset(); // jumps through the reset vector at $FFFC into Wozmon
+    }
+
+    // Wozmon listings start with an address and a colon ("0300: A9 00 ...");
+    // anything else (line numbers, LOMEM = 768, ...) is treated as BASIC.
+    private static bool IsBasicSource(string text) =>
+        !Regex.IsMatch(text.ToUpperInvariant(), @"^[0-9A-F:.R\s]*$");
 }

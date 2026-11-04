@@ -1,9 +1,13 @@
 <Dialog Title="@Title" Visible="Visible" VisibleChanged="VisibleChanged">
     <ChildContent>
         <p class="hint">
-            Paste a Wozmon hex listing or BASIC source.
-            For BASIC source, start BASIC first by entering <code>E000R</code> inside the terminal. If entering a Wozmon program, make sure to end the program with the run command <code>0300R</code>.
+            Write your own program, or paste an existing program's sourcecode and run it.
         </p>
+
+        <ul class="instructions">
+            <li><strong>For assembly programs:</strong> End the program with the Wozmon run command <code>0300R</code>.</li>
+            <li><strong>For BASIC programs:</strong> End the program with <code>RUN</code>.</li>
+        </ul>
 
         <textarea @bind="_programText"
                   @bind:event="oninput"
@@ -24,7 +28,7 @@
 @code {
     [Parameter] public bool Visible { get; set; }
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
-    [Parameter] public string Title { get; set; } = "Paste a program";
+    [Parameter] public string Title { get; set; } = "Run a program";
     [Parameter] public EventCallback<string> OnRun { get; set; }
 
     private string _programText = "";
