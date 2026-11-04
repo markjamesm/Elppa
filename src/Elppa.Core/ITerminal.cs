@@ -10,4 +10,9 @@ public interface ITerminal
     /// Apple I's backspace character. Other control codes can be ignored.
     /// </param>
     void WriteCharacter(byte asciiCode);
+    
+    /// <summary>
+    /// Used to clear the terminal's contents.
+    /// </summary>
+    void Clear();
 }

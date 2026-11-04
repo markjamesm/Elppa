@@ -13,6 +13,17 @@ public sealed class WebTerminal : ITerminal
     private int _row, _col;
 
     public bool IsDirty { get; private set; } = true;
+    
+    public void Clear()
+    {
+        foreach (var row in _rows)
+        {
+            Array.Fill(row, ' ');
+        }
+
+        _row = _col = 0;
+        IsDirty = true;
+    }
 
     public void WriteCharacter(byte asciiCode)
     {

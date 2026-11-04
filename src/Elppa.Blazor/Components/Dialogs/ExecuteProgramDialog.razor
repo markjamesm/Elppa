@@ -1,0 +1,51 @@
+<Dialog Title="@Title" Visible="Visible" VisibleChanged="VisibleChanged">
+    <ChildContent>
+        <p class="hint">
+            Write your own program, or paste an existing program's sourcecode and run it.
+        </p>
+
+        <ul class="instructions">
+            <li><strong>For assembly programs:</strong> End the program with the Wozmon run command <code>0300R</code>.</li>
+            <li><strong>For BASIC programs:</strong> End the program with <code>RUN</code>.</li>
+        </ul>
+
+        <textarea @bind="_programText"
+                  @bind:event="oninput"
+                  @onkeydown="OnTextKeyDown"
+                  rows="16"
+                  spellcheck="false"
+                  autocomplete="off"
+                  autocapitalize="off"
+                  placeholder="0300: A9 00 8D 12 D0 0300R..."
+                  aria-label="Program code"></textarea>
+    </ChildContent>
+
+    <Actions>
+        <button @onclick="Run" disabled="@string.IsNullOrWhiteSpace(_programText)">Run</button>
+    </Actions>
+</Dialog>
+
+@code {
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+    [Parameter] public string Title { get; set; } = "Run a program";
+    [Parameter] public EventCallback<string> OnRun { get; set; }
+
+    private string _programText = "";
+
+    private async Task Run()
+    {
+        if (string.IsNullOrWhiteSpace(_programText))
+        {
+            return;
+        }
+
+        // Make sure the last line is entered even if the paste had no trailing newline.
+        await OnRun.InvokeAsync(_programText.TrimEnd() + "\r");
+        await VisibleChanged.InvokeAsync(false);
+    }
+
+    private Task OnTextKeyDown(KeyboardEventArgs e) =>
+        e.Key == "Enter" && (e.CtrlKey || e.MetaKey) ? Run() : Task.CompletedTask;
+
+}
