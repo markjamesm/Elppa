@@ -44,7 +44,7 @@
         <button class="title @(_open == "software" ? "open" : "")" @onclick='() => Toggle("software")'>Software</button>
         @if (_open == "software")
         {
-            <ul class="dropdown" role="menu">
+            <ul class="dropdown software" role="menu">
                 @for (var g = 0; g < SoftwareGroups.Length; g++)
                 {
                     var group = SoftwareGroups[g];
@@ -153,7 +153,7 @@
         ]),
         new("Fun",
         [
-            new SoftwareItem("Apple 30th Anniversary Slideshow", "apple-slideshow.txt")
+            new SoftwareItem("30th Anniversary Slideshow", "apple-slideshow.txt")
         ])
     ];
 

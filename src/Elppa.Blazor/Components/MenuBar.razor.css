@@ -91,6 +91,22 @@
     padding-left: 24px;
 }
 
+.dropdown.software {
+    max-width: min(16rem, 90vw);
+}
+
+.dropdown.software button {
+    white-space: normal;
+    text-align: left;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+
+.dropdown.software button.indented {
+    padding-left: 24px;
+    text-indent: 0;
+}
+
 .menu-backdrop { /* click anywhere else to close */
     position: fixed;
     inset: 0;
