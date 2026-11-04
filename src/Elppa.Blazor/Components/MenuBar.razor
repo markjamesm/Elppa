@@ -5,7 +5,7 @@
     {
         <div class="menu-backdrop" @onclick="Close"></div>
     }
-    
+
     <div class="menu">
         <button class="title app-menu @(_open == "elppa" ? "open" : "")" @onclick='() => Toggle("elppa")'>
             <strong>Elppa</strong>
@@ -18,14 +18,15 @@
                 </li>
                 <li role="separator" class="divider"></li>
                 <li>
-                    <a role="menuitem" href="https://github.com/markjamesm/Elppa" target="_blank" rel="noopener" @onclick="Close">View on GitHub</a>
+                    <a role="menuitem" href="https://github.com/markjamesm/Elppa" target="_blank" rel="noopener"
+                       @onclick="Close">View on GitHub</a>
                 </li>
             </ul>
         }
     </div>
 
     <div class="menu">
-        <button class="title @(_open == "file" ? "open" : "")" @onclick='() => Toggle("file")'><strong>File</strong>
+        <button class="title @(_open == "file" ? "open" : "")" @onclick='() => Toggle("file")'>File
         </button>
         @if (_open == "file")
         {
@@ -39,7 +40,7 @@
             </ul>
         }
     </div>
-    
+
     <div class="menu">
         <button class="title @(_open == "software" ? "open" : "")" @onclick='() => Toggle("software")'>Software</button>
         @if (_open == "software")
@@ -59,7 +60,8 @@
                     foreach (var item in group.Items)
                     {
                         <li>
-                            <button role="menuitem" class="indented" @onclick="() => LoadSoftware(item.File)">@item.Name</button>
+                            <button role="menuitem" class="indented"
+                                    @onclick="() => LoadSoftware(item.File)">@item.Name</button>
                         </li>
                     }
                 }
@@ -92,7 +94,9 @@
     private string? _open;
     private readonly CancellationTokenSource _cts = new();
     private string _time = "";
+
     private record SoftwareItem(string Name, string File);
+
     private record SoftwareGroup(string Title, SoftwareItem[] Items);
 
     protected override void OnInitialized()
@@ -143,7 +147,7 @@
             _open = null;
         }
     }
-    
+
     private static readonly SoftwareGroup[] SoftwareGroups =
     [
         new("Games",
