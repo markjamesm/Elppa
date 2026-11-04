@@ -34,8 +34,9 @@
     box-shadow: inset 0 0 3cqw rgba(0, 0, 0, 0.85);
 
     font-family: ui-monospace, Menlo, Consolas, monospace;
-    font-size: 2.3cqw; /* Scales with the monitor width */
-    line-height: 2.3cqw; /* 24 rows x 2.3 = 55.2cqw, fits the content box */
+    font-size: 2.35cqw;
+    line-height: calc(57.4cqw / 24);              /* 24 rows fill the content height */
+    letter-spacing: calc(77.5cqw / 40 - 1ch);     /* 40 columns fill the content width */
 }
 
 .terminal pre {
@@ -119,5 +120,6 @@
         font-size: 3.7cqw;
         line-height: 1.2;
         height: calc(24 * 1.2em);
+        letter-spacing: calc(97cqw / 40 - 1ch);
     }
 }
