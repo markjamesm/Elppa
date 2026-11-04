@@ -21,6 +21,33 @@
             </ul>
         }
     </div>
+    
+    <div class="menu">
+        <button class="title @(_open == "software" ? "open" : "")" @onclick='() => Toggle("software")'>Software</button>
+        @if (_open == "software")
+        {
+            <ul class="dropdown" role="menu">
+                @for (var g = 0; g < SoftwareGroups.Length; g++)
+                {
+                    var group = SoftwareGroups[g];
+
+                    if (g > 0)
+                    {
+                        <li role="separator" class="divider"></li>
+                    }
+
+                    <li role="presentation" class="group-heading">@group.Title</li>
+
+                    foreach (var item in group.Items)
+                    {
+                        <li>
+                            <button role="menuitem" class="indented" @onclick="() => LoadSoftware(item.File)">@item.Name</button>
+                        </li>
+                    }
+                }
+            </ul>
+        }
+    </div>
 
     <div class="menu">
         <button class="title @(_open == "help" ? "open" : "")" @onclick='() => Toggle("help")'>Help</button>
@@ -57,11 +84,14 @@
     [Parameter] public EventCallback OnAbout { get; set; }
     [Parameter] public EventCallback OnHelp { get; set; }
     [Parameter] public EventCallback OnLoadProgram { get; set; }
+    [Parameter] public EventCallback<string> OnRunSoftware { get; set; }
     [Parameter] public EventCallback OnReset { get; set; }
 
     private string? _open;
     private readonly CancellationTokenSource _cts = new();
     private string _time = "";
+    private record SoftwareItem(string Name, string File);
+    private record SoftwareGroup(string Title, SoftwareItem[] Items);
 
     protected override void OnInitialized()
     {
@@ -110,6 +140,25 @@
         {
             _open = null;
         }
+    }
+    
+    private static readonly SoftwareGroup[] SoftwareGroups =
+    [
+        new("Games",
+        [
+            new SoftwareItem("Little Tower", "little-tower.txt"),
+            new SoftwareItem("Lunar Lander", "lunar-lander.txt")
+        ]),
+        new("Fun",
+        [
+            new SoftwareItem("Apple 30th Anniversary Slideshow", "apple-slideshow.txt")
+        ])
+    ];
+
+    private async Task LoadSoftware(string file)
+    {
+        _open = null;
+        await OnRunSoftware.InvokeAsync(file);
     }
 
     public void Dispose()

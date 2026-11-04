@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using Elppa.Blazor.Components
 @using Elppa.Blazor.Components.Dialogs
+@inject HttpClient Http
 
 <PageTitle>Elppa - Apple I Emulator</PageTitle>
 
@@ -9,6 +10,7 @@
 <MenuBar OnAbout="() => _modal = Modal.About"
          OnHelp="() => _modal = Modal.Help"
          OnLoadProgram="() => _modal = Modal.LoadProgram"
+         OnRunSoftware="RunSoftware"
          OnReset="Reset"/>
 
 <HelpDialog Visible="_modal == Modal.Help" VisibleChanged="OnModalVisibleChanged"/>
@@ -39,6 +41,14 @@
         }
 
         _modal = Modal.None; // Only one modal is ever open.
+        await _terminal.FocusAsync();
+    }
+    
+    private async Task RunSoftware(string file)
+    {
+        var text = await Http.GetStringAsync($"programs/{file}");
+        _terminal.ResetEmulator();
+        _terminal.LoadProgramFromText(text);
         await _terminal.FocusAsync();
     }
 
