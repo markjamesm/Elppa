@@ -34,8 +34,6 @@ public class Pia6820
     {
         _writeToDisplay = writeToDisplay;
     }
-    
-    public bool IsPasting => _pasteQueue.Count > 0;
 
     public void Reset()
     {
