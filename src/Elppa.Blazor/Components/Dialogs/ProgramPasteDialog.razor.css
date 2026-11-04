@@ -1,0 +1,27 @@
+.hint {
+    margin: 0 0 0.5rem;
+    font-size: 0.85rem;
+    color: #aaa;
+}
+
+textarea {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 12rem;
+    margin-bottom: 0.75rem;
+    resize: vertical;
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 0.9rem;
+    background: #000;
+    color: #33ff33;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 0.5rem;
+    text-transform: uppercase;
+}
+
+button.primary:disabled {
+    opacity: 0.5;
+    cursor: default;
+}

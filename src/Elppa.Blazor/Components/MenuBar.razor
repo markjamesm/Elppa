@@ -7,13 +7,13 @@
     }
 
     <div class="menu">
-        <button class="title @(_open == "app" ? "open" : "")" @onclick='() => Toggle("app")'><strong>Elppa</strong>
+        <button class="title @(_open == "file" ? "open" : "")" @onclick='() => Toggle("file")'><strong>File</strong>
         </button>
-        @if (_open == "app")
+        @if (_open == "file")
         {
             <ul class="dropdown" role="menu">
                 <li>
-                    <button role="menuitem" @onclick="() => Pick(OnAbout)">About Elppa…</button>
+                    <button role="menuitem" @onclick="() => Pick(OnLoadProgram)">Load program from source…</button>
                 </li>
             </ul>
         }
@@ -26,6 +26,9 @@
             <ul class="dropdown" role="menu">
                 <li>
                     <button role="menuitem" @onclick="() => Pick(OnHelp)">Wozmon &amp; BASIC…</button>
+                </li>
+                <li>
+                    <button role="menuitem" @onclick="() => Pick(OnAbout)">About Elppa…</button>
                 </li>
             </ul>
         }
@@ -50,6 +53,7 @@
 @code {
     [Parameter] public EventCallback OnAbout { get; set; }
     [Parameter] public EventCallback OnHelp { get; set; }
+    [Parameter] public EventCallback OnLoadProgram { get; set; }
 
     private string? _open;
     private readonly CancellationTokenSource _cts = new();
@@ -69,7 +73,7 @@
             while (await timer.WaitForNextTickAsync(ct))
             {
                 var now = FormatNow();
-                
+
                 if (now == _time)
                 {
                     continue; // Only re-render when the minute changes.

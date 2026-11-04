@@ -26,6 +26,8 @@ public sealed class Emulator
             _pia.Strobe((byte)key);
         }
     }
+    
+    public void LoadProgramFromText(string text) => _pia.LoadProgramFromText(text);
 
     // Call once per frame (about 60 times a second) from the frontend.
     public void RunFrame()

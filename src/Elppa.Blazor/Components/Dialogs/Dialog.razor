@@ -9,7 +9,10 @@
 
             @ChildContent
 
-            <button @onclick="Close">Close</button>
+            <div class="dialog-actions">
+                @Actions
+                <button @onclick="Close">Close</button>
+            </div>
         </div>
     </div>
 }
@@ -19,11 +22,21 @@
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
     [Parameter] public string Title { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? Actions { get; set; }
 
     private ElementReference _dialog;
     private bool _needsFocus;
+    private bool _wasVisible;
 
-    protected override void OnParametersSet() => _needsFocus = Visible;
+    protected override void OnParametersSet()
+    {
+        if (Visible && !_wasVisible)
+        {
+            _needsFocus = true;
+        }
+
+        _wasVisible = Visible;
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

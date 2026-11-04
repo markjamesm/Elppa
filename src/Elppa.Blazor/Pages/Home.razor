@@ -6,23 +6,31 @@
 
 <Terminal @ref="_terminal"/>
 
-<MenuBar OnAbout="() => _showAbout = true" OnHelp="() => _showHelp = true"/>
+<MenuBar OnAbout="() => _modal = Modal.About"
+         OnHelp="() => _modal = Modal.Help"
+         OnLoadProgram="() => _modal = Modal.LoadProgram"/>
 
-<HelpDialog Visible="_showHelp" VisibleChanged="OnModalVisibleChanged"/>
-<AboutDialog Visible="_showAbout" VisibleChanged="OnModalVisibleChanged"/>
+<HelpDialog Visible="_modal == Modal.Help" VisibleChanged="OnModalVisibleChanged"/>
+<AboutDialog Visible="_modal == Modal.About" VisibleChanged="OnModalVisibleChanged"/>
+<ProgramPasteDialog Visible="_modal == Modal.LoadProgram"
+                    VisibleChanged="OnModalVisibleChanged"
+                    OnRun="text => _terminal.LoadProgramFromText(text)"/>
+
 
 @code {
+    private enum Modal { None, Help, About, LoadProgram }
+
     private Terminal _terminal = default!;
-    private bool _showHelp, _showAbout;
+    private Modal _modal = Modal.None;
 
     private async Task OnModalVisibleChanged(bool visible)
     {
-        _showHelp = _showAbout = visible; // Only one modal is ever open.
-
-        if (!visible)
+        if (visible)
         {
-            await _terminal.FocusAsync();
+            return;
         }
-    }
 
+        _modal = Modal.None; // Only one modal is ever open.
+        await _terminal.FocusAsync();
+    }
 }

@@ -25,10 +25,16 @@
     margin-top: 0;
 }
 
-.dialog button {
-    display: block;
+.dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    padding: 0 4px 4px; /* room for the outline ring */
+}
+
+.dialog-actions ::deep button {
     min-width: 5rem;
-    margin: 1.25rem 4px 0 auto;
     padding: 0.3rem 1rem;
     border: 1px solid #000;
     border-radius: 6px;
@@ -42,10 +48,15 @@
     outline-offset: 3px;
 }
 
-.dialog button:active {
+.dialog-actions ::deep button:active:not(:disabled) {
     background: linear-gradient(to bottom, #9c9c9c 0%, #c4c4c4 100%);
     box-shadow: inset 1px 1px 0 #666,
     inset -1px -1px 0 #eee;
+}
+
+.dialog-actions ::deep button:disabled {
+    color: #888;
+    cursor: default;
 }
 
 .center {

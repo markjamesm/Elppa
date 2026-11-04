@@ -37,6 +37,9 @@
 
     // Lets the parent hand the keyboard back after a dialog closes.
     public async Task FocusAsync() => await _input.FocusAsync();
+    
+    // Lets the parent queue a pasted program as keystrokes.
+    public void LoadProgramFromText(string text) => _emulator.LoadProgramFromText(text);
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

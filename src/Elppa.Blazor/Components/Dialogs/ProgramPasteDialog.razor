@@ -1,0 +1,47 @@
+<Dialog Title="@Title" Visible="Visible" VisibleChanged="VisibleChanged">
+    <ChildContent>
+        <p class="hint">
+            Paste a Wozmon hex listing or BASIC source.
+            For BASIC source, start BASIC first by entering <code>E000R</code> inside the terminal. If entering a Wozmon program, make sure to end the program with the run command <code>0300R</code>.
+        </p>
+
+        <textarea @bind="_programText"
+                  @bind:event="oninput"
+                  @onkeydown="OnTextKeyDown"
+                  rows="16"
+                  spellcheck="false"
+                  autocomplete="off"
+                  autocapitalize="off"
+                  placeholder="0300: A9 00 8D 12 D0 0300R..."
+                  aria-label="Program code"></textarea>
+    </ChildContent>
+
+    <Actions>
+        <button @onclick="Run" disabled="@string.IsNullOrWhiteSpace(_programText)">Run</button>
+    </Actions>
+</Dialog>
+
+@code {
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+    [Parameter] public string Title { get; set; } = "Paste a program";
+    [Parameter] public EventCallback<string> OnRun { get; set; }
+
+    private string _programText = "";
+
+    private async Task Run()
+    {
+        if (string.IsNullOrWhiteSpace(_programText))
+        {
+            return;
+        }
+
+        // Make sure the last line is entered even if the paste had no trailing newline.
+        await OnRun.InvokeAsync(_programText.TrimEnd() + "\r");
+        await VisibleChanged.InvokeAsync(false);
+    }
+
+    private Task OnTextKeyDown(KeyboardEventArgs e) =>
+        e.Key == "Enter" && (e.CtrlKey || e.MetaKey) ? Run() : Task.CompletedTask;
+
+}
