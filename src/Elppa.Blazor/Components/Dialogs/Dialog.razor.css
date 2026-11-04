@@ -8,8 +8,10 @@
 }
 
 .dialog {
-    max-width: min(90vw, 32rem);
-    max-height: 80vh;
+    width: min(90vw, 32rem);
+    max-height: 80vh;      /* fallback for older browsers */
+    max-height: 85dvh;     /* follows the visible area when the keyboard opens */
+    box-sizing: border-box;
     overflow: auto;
     padding: 1.25rem 1.5rem;
     outline: none;

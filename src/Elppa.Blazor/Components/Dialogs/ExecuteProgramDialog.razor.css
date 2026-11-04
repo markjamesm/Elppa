@@ -13,11 +13,11 @@ textarea {
     display: block;
     box-sizing: border-box;
     width: 100%;
-    min-height: 12rem;
+    height: clamp(6rem, 35dvh, 20rem);   /* scales with the visible screen */
     margin-bottom: 0.75rem;
     resize: vertical;
     font-family: "Consolas", "Courier New", monospace;
-    font-size: 0.9rem;
+    font-size: max(16px, 0.9rem);        /* 16px+ prevents iOS zoom-on-focus */
     background: #000;
     color: #33ff33;
     border: 1px solid #555;
