@@ -34,6 +34,8 @@
     {
         _emulator = new Emulator(_screenBuffer);   
     }
+    
+    public void ResetEmulator() => _emulator.Reset();
 
     // Lets the parent hand the keyboard back after a dialog closes.
     public async Task FocusAsync() => await _input.FocusAsync();

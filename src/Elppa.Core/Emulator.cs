@@ -21,6 +21,13 @@ public sealed class Emulator
         _cpu = new Cpu(new Bus(ram, _pia));
         _terminal = terminal;
     }
+    
+    public void Reset()
+    {
+        _terminal.Clear();
+        _pia.Reset();
+        _cpu.Reset();
+    }
 
     public void SendKey(char ch)
     {
@@ -69,13 +76,6 @@ public sealed class Emulator
         memory.Load(appleBasic, basicStart);
 
         return memory;
-    }
-
-    private void Reset()
-    {
-        _terminal.Clear();
-        _pia.Reset(); // clears the key queue and PIA registers
-        _cpu.Reset(); // jumps through the reset vector at $FFFC into Wozmon
     }
 
     // Wozmon listings start with an address and a colon ("0300: A9 00 ...");

@@ -8,17 +8,25 @@
 
 <MenuBar OnAbout="() => _modal = Modal.About"
          OnHelp="() => _modal = Modal.Help"
-         OnLoadProgram="() => _modal = Modal.LoadProgram"/>
+         OnLoadProgram="() => _modal = Modal.LoadProgram"
+         OnReset="Reset"/>
 
 <HelpDialog Visible="_modal == Modal.Help" VisibleChanged="OnModalVisibleChanged"/>
 <AboutDialog Visible="_modal == Modal.About" VisibleChanged="OnModalVisibleChanged"/>
 <ExecuteProgramDialog Visible="_modal == Modal.LoadProgram"
-                    VisibleChanged="OnModalVisibleChanged"
-                    OnRun="text => _terminal.LoadProgramFromText(text)"/>
+                      VisibleChanged="OnModalVisibleChanged"
+                      OnRun="text => _terminal.LoadProgramFromText(text)"/>
 
 
 @code {
-    private enum Modal { None, Help, About, LoadProgram }
+
+    private enum Modal
+    {
+        None,
+        Help,
+        About,
+        LoadProgram
+    }
 
     private Terminal _terminal = default!;
     private Modal _modal = Modal.None;
@@ -33,4 +41,11 @@
         _modal = Modal.None; // Only one modal is ever open.
         await _terminal.FocusAsync();
     }
+
+    private async Task Reset()
+    {
+        _terminal.ResetEmulator();
+        await _terminal.FocusAsync();
+    }
+
 }

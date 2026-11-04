@@ -15,6 +15,9 @@
                 <li>
                     <button role="menuitem" @onclick="() => Pick(OnLoadProgram)">Write or run program…</button>
                 </li>
+                <li>
+                    <button role="menuitem" @onclick="() => Pick(OnReset)">Reset emulator…</button>
+                </li>
             </ul>
         }
     </div>
@@ -54,6 +57,7 @@
     [Parameter] public EventCallback OnAbout { get; set; }
     [Parameter] public EventCallback OnHelp { get; set; }
     [Parameter] public EventCallback OnLoadProgram { get; set; }
+    [Parameter] public EventCallback OnReset { get; set; }
 
     private string? _open;
     private readonly CancellationTokenSource _cts = new();
