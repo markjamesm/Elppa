@@ -5,6 +5,24 @@
     {
         <div class="menu-backdrop" @onclick="Close"></div>
     }
+    
+    <div class="menu">
+        <button class="title app-menu @(_open == "elppa" ? "open" : "")" @onclick='() => Toggle("elppa")'>
+            <strong>Elppa</strong>
+        </button>
+        @if (_open == "elppa")
+        {
+            <ul class="dropdown" role="menu">
+                <li>
+                    <button role="menuitem" @onclick="() => Pick(OnAbout)">About Elppa…</button>
+                </li>
+                <li role="separator" class="divider"></li>
+                <li>
+                    <a role="menuitem" href="https://github.com/markjamesm/Elppa" target="_blank" rel="noopener" @onclick="Close">View on GitHub</a>
+                </li>
+            </ul>
+        }
+    </div>
 
     <div class="menu">
         <button class="title @(_open == "file" ? "open" : "")" @onclick='() => Toggle("file")'><strong>File</strong>
@@ -57,22 +75,6 @@
                 <li>
                     <button role="menuitem" @onclick="() => Pick(OnHelp)">Wozmon &amp; BASIC…</button>
                 </li>
-                <li>
-                    <button role="menuitem" @onclick="() => Pick(OnAbout)">About Elppa…</button>
-                </li>
-            </ul>
-        }
-    </div>
-
-    <div class="menu">
-        <button class="title @(_open == "links" ? "open" : "")" @onclick='() => Toggle("links")'>Links</button>
-        @if (_open == "links")
-        {
-            <ul class="dropdown" role="menu">
-                <li><a role="menuitem" href="https://markjames.dev" target="_blank" rel="noopener" @onclick="Close">Portfolio</a>
-                </li>
-                <li><a role="menuitem" href="https://github.com/markjamesm/Elppa" target="_blank" rel="noopener"
-                       @onclick="Close">View on GitHub</a></li>
             </ul>
         }
     </div>
