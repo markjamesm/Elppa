@@ -22,6 +22,11 @@ public class ConsoleTerminal: ITerminal
         }
     }
 
+    public void Clear()
+    {
+        Console.Clear();
+    }
+
     public static void Run(Emulator emulator)
     {
         new Thread(() =>

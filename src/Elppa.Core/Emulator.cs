@@ -12,12 +12,14 @@ public sealed class Emulator
 
     private readonly Pia6820 _pia;
     private readonly Cpu _cpu;
+    private readonly ITerminal _terminal;
 
     public Emulator(ITerminal terminal)
     {
         var ram = InitializeRam();
         _pia = new Pia6820(terminal.WriteCharacter);
         _cpu = new Cpu(new Bus(ram, _pia));
+        _terminal = terminal;
     }
 
     public void SendKey(char ch)
@@ -71,6 +73,7 @@ public sealed class Emulator
 
     private void Reset()
     {
+        _terminal.Clear();
         _pia.Reset(); // clears the key queue and PIA registers
         _cpu.Reset(); // jumps through the reset vector at $FFFC into Wozmon
     }
